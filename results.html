@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        // console.log(document.cookie);
+        if (document.cookie.includes("results")) {
+            const results = JSON.parse(document.cookie.split("=")[1].split(";")[0]);
+            console.log(results);
+            var counter = 1;
+            results.forEach(result => {
+                var html = "";
+                html += `<div class="result">`;
+                html += `<h3>option: ${ counter++}</h3>`;
+                html += `<p>Luminaire: ${result["Luminaire"]}</p>`;
+                html += `<p>Power (W): ${result["Power (W)"]}</p>`;
+                html += `<p>Efficacy (lm/W): ${result["Efficacy (lm/W)"]}</p>`;
+                html += `<p>Fixtures: ${result["Fixtures"]}</p>`;
+                html += `<p>Spacing X (m): ${result["Spacing X (m)"]}</p>`;
+                html += `<p>Spacing Y (m): ${result["Spacing Y (m)"]}</p>`;
+                html += `<p>Average Lux: ${result["Average Lux"]}</p>`;
+                html += `<p>Uniformity: ${result["Uniformity"]}</p>`;
+                html += `<p>Total Power (W): ${result["Total Power (W)"]}</p>`;
+                html += `</div>`;
+                document.body.innerHTML += html;
+            });
+        }else{
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+</html>
