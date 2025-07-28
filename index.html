@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.svg">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <script type="text/javascript">
+        document.oncontextmenu =new Function("return false;")
+        document.onselectstart =new Function("return false;")
+    </script>
+        
+    <title>LuxSCale | Design your lighting with AI</title>
+</head>
+
+<video autoplay muted loop id="myVideo">
+    <source src="assets/myvideo.mp4" type="video/mp4">
+</video>
+
+<body>
+    <div class="overlay"></div>
+
+    <div class="cridits">
+        <div class="title">
+            <p>Powered by</p>
+        </div>
+        <a href="https://shortcircuitcompany.com" target="_blank"><img src="assets/SClogo.svg" alt="this application is powered by Short Circuit Company"></a>
+    </div>
+    
+    <header>
+        <div class="header-wrap">
+            <a href="index.html"><img src="assets/logo.svg" aria-label="false" alt="Logo"></a>
+            <div class="contact">
+                <ul>
+                    <li><a href="mailto:contact@shortcircuitcompany.com" target="_blank">Contact us</a></li>
+                    <li><a href="https://facebook.com/shortcircuiteg" target="_blank"><img src="assets/facebook-logo.svg" aria-label="false" alt="facebook"></a></li>
+                    <li><a href="https://instagram.com/shortcircuiteg" target="_blank"><img src="assets/instagram-logo.svg" aria-label="false" alt="instagram"></a></li>
+                    <li><a href="https://www.linkedin.com/company/short-circuit-company" target="_blank"><img src="assets/linkedin-logo.svg" aria-label="false" alt="linkedin"></a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="wrap">
+            <div class="hero">
+                <h1>DESIGN YOUR LIGHTING WITH AI</h1>
+                <p class="subheading">In few seconds, make the perfect design of your lighting with the Egyptian Lighting Code and even get an estimated BOQ</p>
+            </div>
+
+            <div class="form">
+                <div class="area">
+                    <h3>Define the surface area</h3>
+                    <p>Take a side measurement, then move clockwise. <span>(Measurements are in Meters)</span></p>
+
+                    <div class="inputs">
+                        <div class="sides">
+                            <div class="side">
+                                <label for="side-1">Side 1</label>
+                                <input type="number" id="a">
+                            </div>
+
+                            <div class="side">
+                                <label for="side-2">Side 2</label>
+                                <input type="number" id="b">
+                            </div>
+
+                            <div class="side">
+                                <label for="side-3">Side 3</label>
+                                <input type="number" id="c">
+                            </div>
+
+                            <div class="side">
+                                <label for="side-4">Side 4</label>
+                                <input type="number" id="d">
+                            </div>
+                        </div>
+
+                        <div class="side">
+                            <label for="height">Height</label>
+                            <input type="number" id="height">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="area">
+                    <h3>Define the function</h3>
+                    <p>Choose the environment of the room from the following menu</p>
+
+                    <select id="place">
+                        <option value="Room">Room</option>
+                        <option value="Office">Office</option>
+                        <option value="Cafe">Cafe</option>
+                        <option value="Factory production line">Production line</option>
+                        <option value="Factory warehouse">Warehouse</option>
+                    </select>
+                </div>
+
+                <button popovertarget="popup">
+                    make lighting study with ai
+                </button>
+            </div>
+        </div>
+
+
+        <div popover class="popup" id="popup">
+
+            <img src="assets/logo-Light.svg" alt="">
+            
+            <div class="area">
+                <h3>Finalize your study</h3>
+                <p>Fill up the following fields and click PROCEED <span>* is required</span></p>
+
+                <div class="inputs">
+                    <div class="sides">
+                        <div class="side">
+                            <label for="project-name">Project Name*</label>
+                            <input required type="tex">
+                        </div>
+
+                        <div class="side">
+                            <label for="client-name">Your Name*</label>
+                            <input required type="text">
+                        </div>
+
+                        <div class="side">
+                            <label for="company">Your Company</label>
+                            <input type="text">
+                        </div>
+
+                        <div class="side">
+                            <label for="phone">Phone Number*</label>
+                            <input required type="tel">
+                        </div>
+                    </div>
+                </div>
+                <button class="solid" onclick="calculate()">
+                    proceed
+                </button>
+    </div>
+    </main>
+
+    <footer>
+        <div class="header-wrap">
+            <div class="copyrights">
+                <p>© 2025 <a href="index.html">LuxSCale</a>. All rights reserved.</p>
+                <p>This is a project of <a href="https://shortcircuitcompany.com" target="_blank">Short Circuit Company</a></p>
+            </div>
+
+        </div>
+    </footer>
+
+    
+
+
+    <script>
+        async function calculate() {
+          const data = {
+            place: document.getElementById("place").value,
+            sides: [
+              parseFloat(document.getElementById("a").value),
+              parseFloat(document.getElementById("b").value),
+              parseFloat(document.getElementById("c").value),
+              parseFloat(document.getElementById("d").value),
+            ],
+            height: parseFloat(document.getElementById("height").value),
+          };
+    
+          const res = await fetch("/calculate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          });
+    
+          const json = await res.json();
+          document.getElementById("output").textContent = JSON.stringify(json.results, null, 2);
+        }
+      </script>
+
+</body>
+</html>
